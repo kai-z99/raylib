@@ -2233,7 +2233,7 @@ bool CheckCollisionCircles(Vector2 center1, float radius1, Vector2 center2, floa
     float dx = center2.x - center1.x;      // X distance between centers
     float dy = center2.y - center1.y;      // Y distance between centers
 
-    float distance = sqrtf(dx*dx + dy*dy); // Distance between centers
+    float distance = sqrtf(dx * dx + dy * dy); // Distance between centers
 
     if (distance <= (radius1 + radius2)) collision = true;
 
@@ -2246,39 +2246,39 @@ bool CheckCollisionCircleRec(Vector2 center, float radius, Rectangle rec)
 {
     bool collision = false;
 
-    float recCenterX = rec.x + rec.width/2.0f;
-    float recCenterY = rec.y + rec.height/2.0f;
+    float recCenterX = rec.x + rec.width / 2.0f;
+    float recCenterY = rec.y + rec.height / 2.0f;
 
     float dx = fabsf(center.x - recCenterX);
     float dy = fabsf(center.y - recCenterY);
 
-    if (dx > (rec.width/2.0f + radius)) { return false; }
-    if (dy > (rec.height/2.0f + radius)) { return false; }
+    if (dx > (rec.width / 2.0f + radius)) { return false; }
+    if (dy > (rec.height / 2.0f + radius)) { return false; }
 
-    if (dx <= (rec.width/2.0f)) { return true; }
-    if (dy <= (rec.height/2.0f)) { return true; }
+    if (dx <= (rec.width / 2.0f)) { return true; }
+    if (dy <= (rec.height / 2.0f)) { return true; }
 
-    float cornerDistanceSq = (dx - rec.width/2.0f)*(dx - rec.width/2.0f) +
-                             (dy - rec.height/2.0f)*(dy - rec.height/2.0f);
+    float cornerDistanceSq = (dx - rec.width / 2.0f) * (dx - rec.width / 2.0f) +
+        (dy - rec.height / 2.0f) * (dy - rec.height / 2.0f);
 
-    collision = (cornerDistanceSq <= (radius*radius));
+    collision = (cornerDistanceSq <= (radius * radius));
 
     return collision;
 }
 
 // Check the collision between two lines defined by two points each, returns collision point by reference
-bool CheckCollisionLines(Vector2 startPos1, Vector2 endPos1, Vector2 startPos2, Vector2 endPos2, Vector2 *collisionPoint)
+bool CheckCollisionLines(Vector2 startPos1, Vector2 endPos1, Vector2 startPos2, Vector2 endPos2, Vector2* collisionPoint)
 {
     bool collision = false;
 
-    float div = (endPos2.y - startPos2.y)*(endPos1.x - startPos1.x) - (endPos2.x - startPos2.x)*(endPos1.y - startPos1.y);
+    float div = (endPos2.y - startPos2.y) * (endPos1.x - startPos1.x) - (endPos2.x - startPos2.x) * (endPos1.y - startPos1.y);
 
     if (fabsf(div) >= FLT_EPSILON)
     {
         collision = true;
 
-        float xi = ((startPos2.x - endPos2.x)*(startPos1.x*endPos1.y - startPos1.y*endPos1.x) - (startPos1.x - endPos1.x)*(startPos2.x*endPos2.y - startPos2.y*endPos2.x))/div;
-        float yi = ((startPos2.y - endPos2.y)*(startPos1.x*endPos1.y - startPos1.y*endPos1.x) - (startPos1.y - endPos1.y)*(startPos2.x*endPos2.y - startPos2.y*endPos2.x))/div;
+        float xi = ((startPos2.x - endPos2.x) * (startPos1.x * endPos1.y - startPos1.y * endPos1.x) - (startPos1.x - endPos1.x) * (startPos2.x * endPos2.y - startPos2.y * endPos2.x)) / div;
+        float yi = ((startPos2.y - endPos2.y) * (startPos1.x * endPos1.y - startPos1.y * endPos1.x) - (startPos1.y - endPos1.y) * (startPos2.x * endPos2.y - startPos2.y * endPos2.x)) / div;
 
         if (((fabsf(startPos1.x - endPos1.x) > FLT_EPSILON) && (xi < fminf(startPos1.x, endPos1.x) || (xi > fmaxf(startPos1.x, endPos1.x)))) ||
             ((fabsf(startPos2.x - endPos2.x) > FLT_EPSILON) && (xi < fminf(startPos2.x, endPos2.x) || (xi > fmaxf(startPos2.x, endPos2.x)))) ||
@@ -2304,12 +2304,12 @@ bool CheckCollisionPointLine(Vector2 point, Vector2 p1, Vector2 p2, int threshol
     float dyc = point.y - p1.y;
     float dxl = p2.x - p1.x;
     float dyl = p2.y - p1.y;
-    float cross = dxc*dyl - dyc*dxl;
+    float cross = dxc * dyl - dyc * dxl;
 
-    if (fabsf(cross) < (threshold*fmaxf(fabsf(dxl), fabsf(dyl))))
+    if (fabsf(cross) < (threshold * fmaxf(fabsf(dxl), fabsf(dyl))))
     {
-        if (fabsf(dxl) >= fabsf(dyl)) collision = (dxl > 0)? ((p1.x <= point.x) && (point.x <= p2.x)) : ((p2.x <= point.x) && (point.x <= p1.x));
-        else collision = (dyl > 0)? ((p1.y <= point.y) && (point.y <= p2.y)) : ((p2.y <= point.y) && (point.y <= p1.y));
+        if (fabsf(dxl) >= fabsf(dyl)) collision = (dxl > 0) ? ((p1.x <= point.x) && (point.x <= p2.x)) : ((p2.x <= point.x) && (point.x <= p1.x));
+        else collision = (dyl > 0) ? ((p1.y <= point.y) && (point.y <= p2.y)) : ((p2.y <= point.y) && (point.y <= p1.y));
     }
 
     return collision;
@@ -2320,17 +2320,17 @@ RLAPI bool CheckCollisionCircleLine(Vector2 center, float radius, Vector2 p1, Ve
 {
     float dx = p1.x - p2.x;
     float dy = p1.y - p2.y;
+
+    if ((fabsf(dx) + fabsf(dy)) <= FLT_EPSILON)
+    {
+       return CheckCollisionCircles(p1, 0, center, radius);
+    }
+
     float lengthSQ = ((dx * dx) + (dy * dy));
     float dotProduct = (((center.x - p1.x) * (p2.x - p1.x)) + ((center.y - p1.y) * (p2.y - p1.y))) / (lengthSQ);
 
-    if (dotProduct > 1.0f)
-    {
-        dotProduct = 1.0f;
-    }
-    else if (dotProduct < 0.0f)
-    {
-        dotProduct = 0.0f;
-    }
+    if (dotProduct > 1.0f) dotProduct = 1.0f;
+    else if (dotProduct < 0.0f) dotProduct = 0.0f;
 
     float dx2 = (p1.x - (dotProduct * (dx))) - center.x;
     float dy2 = (p1.y - (dotProduct * (dy))) - center.y;
